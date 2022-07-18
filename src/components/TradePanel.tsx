@@ -23,7 +23,9 @@ export function TradePanel(): JSX.Element {
     currentAmount,
     setCurrentAmount,
     sendingTrade,
-    setSendingTrade
+    setSendingTrade,
+    minSolModal,
+    setMinSolModal
   } = useTradeContext();
   const accountPoolPosition = marginAccount && currentPool?.symbol && marginAccount.poolPositions[currentPool.symbol];
   const accountSummary = marginAccount && marginAccount.summary;
@@ -110,11 +112,22 @@ export function TradePanel(): JSX.Element {
     let tradeError = '';
     setSendingTrade(true);
 
+    const reserveMinimumSol = () => {
+      const solBalanceRemainder = walletBalances['SOL'].amount.tokens - tradeAmount.tokens;
+      if (currentPool.poolConfig?.symbol === 'SOL' && solBalanceRemainder < 0.2) {
+        return true;
+      }
+    };
+
     // Depositing
     if (tradeAction === 'deposit') {
       // User is depositing more than they have in their wallet
       if (tradeAmount.tokens > walletBalances[currentPool.symbol].amount.tokens) {
         tradeError = dictionary.cockpit.notEnoughAsset.replaceAll('{{ASSET}}', currentPool.symbol);
+        // User will have less than 0.2 SOL after the trade
+      } else if (reserveMinimumSol()) {
+        tradeError = 'You must reserve a minimum of 0.2 SOL for transaction fees.';
+        setMinSolModal(true);
         // Otherwise, send deposit
       } else {
         const depositAmount = PoolTokenChange.setTo(accountPoolPosition.depositBalance.add(tradeAmount));

@@ -11,6 +11,8 @@ interface TradeInfo {
   setCurrentAmount: (amount: number | null) => void;
   sendingTrade: boolean;
   setSendingTrade: (sending: boolean) => void;
+  minSolModal: boolean;
+  setMinSolModal: (sending: boolean) => void;
 }
 const TradeContext = createContext<TradeInfo>({
   currentPool: undefined,
@@ -20,7 +22,9 @@ const TradeContext = createContext<TradeInfo>({
   currentAmount: null,
   setCurrentAmount: () => null,
   sendingTrade: false,
-  setSendingTrade: () => null
+  setSendingTrade: () => null,
+  minSolModal: false,
+  setMinSolModal: () => null
 });
 
 // Trade info context provider
@@ -29,6 +33,7 @@ export function TradeContextProvider(props: { children: JSX.Element }): JSX.Elem
   const [currentAction, setCurrentAction] = useState<PoolAction>('deposit');
   const [currentAmount, setCurrentAmount] = useState<number | null>(null);
   const [sendingTrade, setSendingTrade] = useState<boolean>(false);
+  const [minSolModal, setMinSolModal] = useState<boolean>(false);
 
   return (
     <TradeContext.Provider
@@ -40,7 +45,9 @@ export function TradeContextProvider(props: { children: JSX.Element }): JSX.Elem
         currentAmount,
         setCurrentAmount,
         sendingTrade,
-        setSendingTrade
+        setSendingTrade,
+        minSolModal,
+        setMinSolModal
       }}>
       {props.children}
     </TradeContext.Provider>

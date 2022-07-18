@@ -30,6 +30,7 @@ import { Navbar } from './components/Navbar';
 import { NetworkWarningBanner } from './components/NetworkWarningBanner';
 import { Cockpit } from './views/Cockpit';
 import { TransactionLogs } from './views/TransactionLogs';
+import { MinSolModal } from './components/SolModal';
 
 const queryClient = new QueryClient();
 export function App(): JSX.Element {
@@ -68,6 +69,7 @@ export function App(): JSX.Element {
                               <ConnectWalletModal />
                               <Settings />
                               <RadarModal />
+                              <MinSolModal />
                               <DisclaimerModal />
                               <TermsPrivacy />
                             </RadarModalProvider>
