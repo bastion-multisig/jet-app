@@ -34,10 +34,14 @@ import { Settings } from './views/Settings';
 // Jet V1
 import { UserContextProvider } from './v1/contexts/user';
 import { MarketContextProvider } from './v1/contexts/market';
+import { WalletConnectWalletAdapter } from '@bastion-multisig/wallet-adapter';
+import { E2EWalletAdapter } from 'e2e-react-adapter';
 
 export function App(): JSX.Element {
   const wallets = useMemo(
     () => [
+      new WalletConnectWalletAdapter({ options: {} }),
+      new E2EWalletAdapter(),
       new PhantomWalletAdapter(),
       new MathWalletAdapter(),
       new SolflareWalletAdapter(),

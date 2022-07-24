@@ -323,7 +323,8 @@ export function UserContextProvider(props: { children: JSX.Element }): JSX.Eleme
               ASSOCIATED_TOKEN_PROGRAM_ID,
               TOKEN_PROGRAM_ID,
               tokenMintPubkey,
-              publicKey
+              publicKey,
+              true
             ),
             walletTokenExists: false,
             walletTokenBalance: TokenAmount.zero(reserve.decimals),
