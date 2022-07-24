@@ -178,21 +178,28 @@ export const useJetV1 = () => {
       }
     });
 
-    const ix = [
+    const ix1 = [
       createTokenAccountIx,
       initTokenAccountIx,
       initDepositAccountIx,
       initObligationIx,
-      initCollateralAccountIx,
-      refreshReserveIx,
-      depositIx,
-      depositCollateralIx,
-      closeTokenAccountIx
+      initCollateralAccountIx
     ].filter(ix => ix) as TransactionInstruction[];
+    const ix2 = [refreshReserveIx, depositIx, depositCollateralIx, closeTokenAccountIx].filter(
+      ix => ix
+    ) as TransactionInstruction[];
     const signers = [depositSourceKeypair].filter(signer => signer) as Keypair[];
-
+    const tx: InstructionAndSigner[] = [
+      {
+        ix: ix1,
+        signers: signers
+      },
+      {
+        ix: ix2
+      }
+    ];
     try {
-      return await sendTransaction(program.provider, ix, signers);
+      return await sendAllTransactions(program.provider, tx);
     } catch (err) {
       console.error(`Deposit error: ${transactionErrorToString(err)}`);
       return [TxnResponse.Failed, []];
