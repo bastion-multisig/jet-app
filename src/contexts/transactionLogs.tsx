@@ -207,14 +207,14 @@ export function TransactionsProvider(props: { children: JSX.Element }): JSX.Elem
   // Call reset on any new pubkey or rpc node change
   useEffect(() => {
     setLogs([]);
-    if (publicKey) {
-      connection.getSignaturesForAddress(publicKey, undefined, 'confirmed').then(signatures => {
-        setSignatures(signatures);
-        getDetailedLogs(signatures);
-      });
-    } else {
-      setLoadingLogs(false);
-    }
+    // if (publicKey) {
+    //   connection.getSignaturesForAddress(publicKey, undefined, 'confirmed').then(signatures => {
+    //     setSignatures(signatures);
+    //     getDetailedLogs(signatures);
+    //   });
+    // } else {
+    setLoadingLogs(false);
+    // }
   }, [connected, publicKey, preferredNode]);
 
   return (
@@ -223,8 +223,8 @@ export function TransactionsProvider(props: { children: JSX.Element }): JSX.Elem
         loadingLogs,
         logs,
         noMoreSignatures,
-        addLog,
-        searchMoreLogs: () => getDetailedLogs(signatures)
+        addLog: async () => {},
+        searchMoreLogs: async () => {}
       }}>
       {props.children}
     </TransactionsContext.Provider>

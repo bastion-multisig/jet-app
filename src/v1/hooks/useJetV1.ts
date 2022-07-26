@@ -358,6 +358,7 @@ export const useJetV1 = () => {
     let wsolKeypair: Keypair | undefined;
     let createWsolTokenAccountIx: TransactionInstruction | undefined;
     let initWsoltokenAccountIx: TransactionInstruction | undefined;
+
     let closeTokenAccountIx: TransactionInstruction | undefined;
 
     if (asset.tokenMintPubkey.equals(NATIVE_MINT)) {
@@ -455,7 +456,10 @@ export const useJetV1 = () => {
         signers: [wsolKeypair].filter(ix => ix) as Signer[]
       },
       {
-        ix: [...refreshReserveIxs, borrowIx, closeTokenAccountIx].filter(ix => ix) as TransactionInstruction[]
+        ix: [...refreshReserveIxs, borrowIx].filter(ix => ix) as TransactionInstruction[]
+      },
+      {
+        ix: [closeTokenAccountIx].filter(ix => ix) as TransactionInstruction[]
       }
     ];
 
@@ -599,7 +603,7 @@ export const useJetV1 = () => {
 
     for (const assetAbbrev in user.assets.tokens) {
       const refreshReserveIx = buildRefreshReserveIx(assetAbbrev);
-      if (refreshReserveIx) {
+      if (refreshReserveIx && assetAbbrev !== 'ETH') {
         ix.push(refreshReserveIx);
       }
     }

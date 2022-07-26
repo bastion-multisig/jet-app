@@ -19,10 +19,6 @@ export function RadarModal(): JSX.Element {
       rates: {} as any
     },
     {
-      name: 'mango',
-      rates: {} as any
-    },
-    {
       name: 'apricot',
       rates: {} as any
     },

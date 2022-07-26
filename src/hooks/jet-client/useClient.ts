@@ -21,7 +21,7 @@ if (cluster === 'localnet') {
 export const coder = new anchor.Coder(idl);
 
 const confirmOptions = {
-  skipPreflight: false,
+  skipPreflight: true,
   commitment: 'recent',
   preflightCommitment: 'recent'
 } as ConfirmOptions;
