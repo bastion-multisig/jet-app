@@ -37,7 +37,8 @@ export function useWalletAddress() {
 
 export function useProvider() {
   const { preferredNode } = useRpcNode();
-  const connection = useMemo(() => new Connection(preferredNode ?? idl.metadata.cluster, 'recent'), [preferredNode]);
+  const node = process.env.REACT_APP_RPC ?? '';
+  const connection = useMemo(() => new Connection(node, 'recent'), [preferredNode]);
   const wallet = useWallet();
   const confirmOptions = useConfirmOptions();
 
